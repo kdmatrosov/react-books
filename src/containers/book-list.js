@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 //это контейнер - связь между набором данных и отображением
 
-export default class BookList extends Component {
+class BookList extends Component {
   renderList() {
     return this.props.books.map((book) => {
       return (
@@ -18,3 +19,10 @@ export default class BookList extends Component {
     );
   }
 }
+function mapStateToProps(state){
+  //organize props
+  return {
+    books: state.books
+  };
+}
+export default connect(mapStateToProps)(BookList);
