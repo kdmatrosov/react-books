@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {selectBook} from '../actions/index';
+import {bindActionCreators} from 'redux';
 
 //это контейнер - связь между набором данных и отображением
 
@@ -7,7 +9,8 @@ class BookList extends Component {
   renderList() {
     return this.props.books.map((book) => {
       return (
-        <li key={book.title} className="list-group-item">{book.title}</li>
+        <li key={book.title} className="list-group-item"
+        onClick={() => this.props.selectBook(book)}>{book.title}</li>
       );
     })
   }
@@ -25,4 +28,9 @@ function mapStateToProps(state){
     books: state.books
   };
 }
-export default connect(mapStateToProps)(BookList);
+//всё, что вернется из функции будет интепретироваться как проперти БукЛист
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({selectBook: selectBook}, dispatch);
+}
+// это самый стремный момент в подходе редукса. Что здесь происходит???
+export default connect(mapStateToProps, mapDispatchToProps)(BookList);
